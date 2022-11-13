@@ -6,6 +6,7 @@ insert into subjects (name) values
 
 insert into permissions(scope, "action") values
     ('SUBJECT', 'READ'),
+    ('REGISTRATION', 'READ'),
     ('REGISTRATION', 'CREATE');
 
 insert into roles(name) values
@@ -13,7 +14,8 @@ insert into roles(name) values
 
 insert into roles_permissions(role_id, permission_id) values
     (1,1),
-    (1,2);
+    (1,2),
+    (1,3);
 
 insert into users(username, password, role_id) values
     ('admin', '$2a$10$g8ZjNE897R0QQR1pcsJARun8qvgS8xtMQKBJNNbRLm6.w11P2bt.m', 1), -- pass admin

@@ -32,7 +32,7 @@ class TokenService @Autowired constructor(
         val claimsSet = JwtClaimsSet.builder()
             .issuer("admission-office")
             .issuedAt(now)
-            .expiresAt(now.plus(10, ChronoUnit.MINUTES))
+            .expiresAt(now.plus(60, ChronoUnit.MINUTES))
             .subject(userSecurity.username)
             .build()
         return jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).tokenValue

@@ -5,5 +5,5 @@ import org.springframework.http.HttpStatus
 
 
 abstract class NotFoundException(message: String) : ServiceException(HttpStatus.NOT_FOUND, message) {
-    constructor(modelName: String, id: Long) : this("$modelName with id = $id not found.")
+    constructor(modelName: String, id: Number) : this("$modelName with id = $id not found.")
 }

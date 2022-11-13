@@ -23,7 +23,9 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtEncoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
+import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.access.AccessDeniedHandler
 
 
 @Configuration
@@ -32,7 +34,9 @@ import org.springframework.security.web.SecurityFilterChain
 class SecurityConfig @Autowired constructor(
     private val userDetailsService: UserDetailsService,
     private val jwtToUserConverter: JwtToUserConverter,
-    private val rsaKeys: RsaKeyProperties
+    private val rsaKeys: RsaKeyProperties,
+    private val authenticationEntryPoint: AuthenticationEntryPoint,
+    private val accessDeniedHandler: AccessDeniedHandler
 ) {
 
     @Bean
@@ -43,13 +47,23 @@ class SecurityConfig @Autowired constructor(
                     .antMatchers("/login").permitAll()
                     .anyRequest().authenticated()
             }
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .oauth2ResourceServer {
                 it.jwt().jwtAuthenticationConverter(jwtToUserConverter)
+                it.accessDeniedHandler(accessDeniedHandler)
+                it.authenticationEntryPoint(authenticationEntryPoint)
             }
+//            .exceptionHandling {
+//                it.authenticationEntryPoint(BearerTokenAuthenticationEntryPoint())
+//                it.accessDeniedHandler(BearerTokenAccessDeniedHandler())
+//            }
+            .exceptionHandling {
+                it.authenticationEntryPoint(authenticationEntryPoint)
+                it.accessDeniedHandler(accessDeniedHandler)
+            }
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .csrf().disable()
             .httpBasic().disable()
-        .build()
+            .build()
     }
 
     @Bean

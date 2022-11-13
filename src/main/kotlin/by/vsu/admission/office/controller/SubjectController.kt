@@ -22,7 +22,7 @@ class SubjectController @Autowired constructor(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "3") size: Int
     ): PageableSubjectDto {
-        val page = subjectService.getAll(PageRequest.of(page, size))
+        val page = subjectService.getAllDto(PageRequest.of(page, size))
         return PageableSubjectDto(page)
     }
 }

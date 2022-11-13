@@ -1,5 +1,8 @@
 package by.vsu.admission.office.model
 
 enum class PermissionAction {
-    READ
+    READ,
+    CREATE,
+    UPDATE,
+    DELETE
 }

@@ -4,15 +4,19 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
-@Table(name = "subjects")
 @Entity
-data class Subject(
+@Table(name = "students")
+data class Student(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int? = null,
+    val id: Long,
 
-    val name: String,
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    val user: User,
 )

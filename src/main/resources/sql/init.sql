@@ -1,8 +1,8 @@
 drop table roles_permissions;
-drop table users_schedules;
+drop table users_exams;
 drop table permissions;
 drop table marks;
-drop table schedules;
+drop table exams;
 drop table registrations;
 drop table students;
 drop table users;
@@ -70,7 +70,7 @@ create table if not exists registrations (
     foreign key (student_id) references students (id) on delete restrict on update cascade
 ) ;
 
-create table if not exists schedules (
+create table if not exists exams (
     id bigserial,
     start timestamp  not null,
     duration int not null,
@@ -82,23 +82,23 @@ create table if not exists schedules (
     foreign key (subject_id) references subjects (id) on delete restrict on update cascade
 );
 
-create table if not exists users_schedules (
-    schedule_id bigint,
+create table if not exists users_exams (
+    exam_id bigint,
     user_id bigint,
 
-    primary key (schedule_id, user_id),
+    primary key (exam_id, user_id),
     foreign key (user_id) references users (id) on delete restrict on update cascade,
-    foreign key (schedule_id) references schedules (id) on delete restrict on update cascade
+    foreign key (exam_id) references exams (id) on delete restrict on update cascade
 );
 
 
 create table if not exists marks (
     id bigserial,
     score int,
-    schedule_id bigint not null,
+    exam_id bigint not null,
     student_id bigint not null,
 
     primary key (id),
-    foreign key (schedule_id) references schedules (id) on delete restrict on update cascade,
+    foreign key (exam_id) references exams (id) on delete restrict on update cascade,
     foreign key (student_id) references students (id) on delete restrict on update cascade
 );

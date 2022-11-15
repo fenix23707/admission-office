@@ -1,7 +1,6 @@
 package by.vsu.admission.office.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.springframework.scheduling.annotation.Schedules
 import java.time.Duration
 import java.time.LocalDateTime
 import javax.persistence.Entity
@@ -16,8 +15,8 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "schedules")
-data class Schedule(
+@Table(name = "exams")
+data class Exam(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +34,8 @@ data class Schedule(
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "users_schedules",
-        joinColumns = [JoinColumn(name = "schedule_id")],
+        name = "users_exams",
+        joinColumns = [JoinColumn(name = "exam_id")],
         inverseJoinColumns = [JoinColumn(name = "user_id")]
     )
     @JsonIgnore

@@ -27,9 +27,19 @@ class RegistrationController @Autowired constructor(
     private val subjectService: SubjectService,
 ) {
 
-    @GetMapping
+    @GetMapping()
     @PreAuthorize("hasAuthority('REGISTRATION_READ')")
     fun getAll(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "\${pagination.size}") size: Int,
+    ): PageableRegistrationDto {
+        val page = registrationService.getAll(PageRequest.of(page, size))
+        return PageableRegistrationDto(page)
+    }
+
+    @GetMapping("/students")
+    @PreAuthorize("hasAuthority('REGISTRATION_READ')")
+    fun getAllByOwner(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "\${pagination.size}") size: Int,
         authentication: Authentication

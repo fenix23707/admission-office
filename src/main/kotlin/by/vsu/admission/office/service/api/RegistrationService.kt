@@ -8,7 +8,11 @@ import org.springframework.data.domain.Pageable
 
 interface RegistrationService {
 
+    fun getAll(pageable: Pageable): Page<Registration>
+
     fun getAllByStudentId(studentId: Long, pageable: Pageable): Page<Registration>
 
     fun register(student: Student, subject: Subject): Registration
+
+    fun deleteById(id: Long)
 }

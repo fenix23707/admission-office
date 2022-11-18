@@ -19,4 +19,6 @@ interface ExamService {
     fun getAllDto(pageable: Pageable): Page<ExamDto>
 
     fun getByIdDto(id: Long): ExamDto
+
+    fun getAllByUserIdDto(studentId: Long): List<ExamDto>
 }

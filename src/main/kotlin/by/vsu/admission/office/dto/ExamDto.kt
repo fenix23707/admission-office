@@ -22,7 +22,6 @@ data class ExamDto(
 
     fun toModel(): Exam {
         return Exam(
-            id = this.id,
             time = this.time!!,
             duration = this.duration!!,
             classroom = this.classroom!!,

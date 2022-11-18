@@ -9,6 +9,7 @@ import by.vsu.admission.office.model.Subject
 import by.vsu.admission.office.repository.api.ExamRepository
 import by.vsu.admission.office.service.api.ExamService
 import by.vsu.admission.office.service.api.StudentService
+import by.vsu.admission.office.service.api.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service
 class ExamServiceImpl @Autowired constructor(
     private val examRepository: ExamRepository,
     private val studentService: StudentService,
+    private val userService: UserService
 ) : ExamService {
 
     private fun getById(id: Long): Exam {
@@ -54,6 +56,10 @@ class ExamServiceImpl @Autowired constructor(
 
     override fun getByIdDto(id: Long): ExamDto {
         return ExamDto(getById(id))
+    }
+
+    override fun getAllByUserIdDto(userId: Long): List<ExamDto> {
+        return userService.getById(userId).exams.map { ExamDto(it) }
     }
 
     private fun checkIfExistById(id: Long) {

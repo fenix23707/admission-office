@@ -5,12 +5,17 @@ import by.vsu.admission.office.model.User
 import by.vsu.admission.office.repository.api.UserRepository
 import by.vsu.admission.office.service.api.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class UserServiceImpl @Autowired constructor(
     private val userRepository: UserRepository
 ) : UserService {
+
+    override fun getById(id: Long): User {
+        return userRepository.findByIdOrNull(id) ?: throw UserNotFoundException(id)
+    }
 
     override fun getByUsername(username: String): User {
         return userRepository.findByUsername(username) ?: throw UserNotFoundException(username)

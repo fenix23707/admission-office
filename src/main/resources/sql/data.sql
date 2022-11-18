@@ -30,7 +30,8 @@ insert into roles_permissions(role_id, permission_id) values
     (2,7),
     (2,8),
     (2,9),
-    (2,10);
+    (2,10),
+    (1,4);
 
 insert into users(username, password, role_id) values
     ('admin', '$2a$10$g8ZjNE897R0QQR1pcsJARun8qvgS8xtMQKBJNNbRLm6.w11P2bt.m', 1), -- pass admin

@@ -3,12 +3,15 @@ package by.vsu.admission.office.controller
 import by.vsu.admission.office.dto.ExamDto
 import by.vsu.admission.office.dto.assign.StudentExamAssignDto
 import by.vsu.admission.office.dto.pageable.PageableExamDto
+import by.vsu.admission.office.security.UserSecurity
 import by.vsu.admission.office.service.api.ExamService
+import by.vsu.admission.office.service.api.StudentService
 import by.vsu.admission.office.service.api.SubjectService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -24,7 +27,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/exams")
 class ExamController @Autowired constructor(
     private val examService: ExamService,
-    private val subjectService: SubjectService
+    private val subjectService: SubjectService,
+    private val studentService: StudentService
 ) {
 
     @GetMapping
@@ -70,12 +74,19 @@ class ExamController @Autowired constructor(
         examService.deleteById(id)
     }
 
-    @PostMapping("{examId}/assign/students/{studentId}")
+    @PostMapping("/{examId}/assign/students/{studentId}")
     @PreAuthorize("hasAuthority('EXAM_ASSIGN')")
     fun assignStudent(
         @PathVariable examId: Long,
         @PathVariable studentId: Long
     ): StudentExamAssignDto {
         return examService.assignStudent(examId, studentId)
+    }
+
+    @GetMapping("/users")
+    @PreAuthorize("hasAuthority('EXAM_READ')")
+    fun getAllByUserId(authentication: Authentication): List<ExamDto> {
+        val userId = (authentication.principal as UserSecurity).id
+        return examService.getAllByUserIdDto(userId)
     }
 }

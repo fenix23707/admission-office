@@ -1,6 +1,6 @@
 drop table roles_permissions;
-drop table users_exams;
 drop table permissions;
+drop table users_exams;
 drop table marks;
 drop table exams;
 drop table registrations;
@@ -72,7 +72,7 @@ create table if not exists registrations (
 
 create table if not exists exams (
     id bigserial,
-    start timestamp  not null,
+    time timestamp  not null,
     duration int not null,
     classroom varchar(50) not null,
     subject_id bigint not null,

@@ -1,11 +1,14 @@
 package by.vsu.admission.office.service.impl
 
 import by.vsu.admission.office.dto.ExamDto
+import by.vsu.admission.office.dto.StudentDto
+import by.vsu.admission.office.dto.assign.StudentExamAssignDto
 import by.vsu.admission.office.exception.notfound.ExamNotFoundException
 import by.vsu.admission.office.model.Exam
 import by.vsu.admission.office.model.Subject
 import by.vsu.admission.office.repository.api.ExamRepository
 import by.vsu.admission.office.service.api.ExamService
+import by.vsu.admission.office.service.api.StudentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -14,7 +17,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class ExamServiceImpl @Autowired constructor(
-    private val examRepository: ExamRepository
+    private val examRepository: ExamRepository,
+    private val studentService: StudentService,
 ) : ExamService {
 
     private fun getById(id: Long): Exam {
@@ -34,6 +38,14 @@ class ExamServiceImpl @Autowired constructor(
     override fun deleteById(id: Long) {
         checkIfExistById(id)
         examRepository.deleteById(id)
+    }
+
+    override fun assignStudent(examId: Long, studentId: Long): StudentExamAssignDto {
+        val student = studentService.getById(studentId)
+        val exam = getById(examId)
+        exam.users.add(student.user)
+        examRepository.save(exam)
+        return StudentExamAssignDto(StudentDto(student), ExamDto(exam))
     }
 
     override fun getAllDto(pageable: Pageable): Page<ExamDto> {

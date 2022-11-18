@@ -38,7 +38,7 @@ class RegistrationController @Autowired constructor(
     }
 
     @GetMapping("/students")
-    @PreAuthorize("hasAuthority('REGISTRATION_READ')")
+    @PreAuthorize("hasAuthority('REGISTRATION_READ_BY_STUDENT')")
     fun getAllByOwner(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "\${pagination.size}") size: Int,

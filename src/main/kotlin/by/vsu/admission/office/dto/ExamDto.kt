@@ -27,7 +27,7 @@ data class ExamDto(
             duration = this.duration!!,
             classroom = this.classroom!!,
             subject = this.subject!!,
-            users = emptySet()
+            users = mutableSetOf()
         )
     }
 

@@ -1,6 +1,7 @@
 package by.vsu.admission.office.controller
 
 import by.vsu.admission.office.dto.ExamDto
+import by.vsu.admission.office.dto.assign.StudentExamAssignDto
 import by.vsu.admission.office.dto.pageable.PageableExamDto
 import by.vsu.admission.office.service.api.ExamService
 import by.vsu.admission.office.service.api.SubjectService
@@ -67,5 +68,14 @@ class ExamController @Autowired constructor(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Long) {
         examService.deleteById(id)
+    }
+
+    @PostMapping("{examId}/assign/students/{studentId}")
+    @PreAuthorize("hasAuthority('EXAM_ASSIGN')")
+    fun assignStudent(
+        @PathVariable examId: Long,
+        @PathVariable studentId: Long
+    ): StudentExamAssignDto {
+        return examService.assignStudent(examId, studentId)
     }
 }

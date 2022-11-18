@@ -39,5 +39,5 @@ data class Exam(
         inverseJoinColumns = [JoinColumn(name = "user_id")]
     )
     @JsonIgnore
-    val users: Set<User>
+    val users: MutableSet<User>
 )

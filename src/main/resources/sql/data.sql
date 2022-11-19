@@ -15,7 +15,8 @@ insert into permissions(scope, "action") values
     ('EXAM', 'DELETE'),
     ('REGISTRATION', 'READ'),
     ('EXAM', 'ASSIGN'),
-    ('MARK', 'CREATE');
+    ('MARK', 'CREATE'),
+    ('MARK', 'READ');
 
 insert into roles(name) values
     ('student'),
@@ -35,7 +36,8 @@ insert into roles_permissions(role_id, permission_id) values
     (2,10),
     (1,4),
     (3, 4),
-    (3, 11);
+    (3, 11),
+    (1, 12);
 
 insert into users(username, password, role_id) values
     ('admin', '$2a$10$g8ZjNE897R0QQR1pcsJARun8qvgS8xtMQKBJNNbRLm6.w11P2bt.m', 1), -- pass admin
@@ -47,3 +49,6 @@ insert into students(id, user_id) values
 
 insert into exams(time, duration, classroom, subject_id) values
     ('2018-07-14T17:45:55.9483536', 90, '100b', 1);
+
+insert into users_exams(user_id, exam_id) values
+    (3, 1);

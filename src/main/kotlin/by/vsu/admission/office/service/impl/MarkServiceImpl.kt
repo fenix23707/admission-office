@@ -8,7 +8,6 @@ import by.vsu.admission.office.repository.api.MarkRepository
 import by.vsu.admission.office.service.api.ExamService
 import by.vsu.admission.office.service.api.MarkService
 import by.vsu.admission.office.service.api.StudentService
-import by.vsu.admission.office.service.api.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -27,7 +26,7 @@ class MarkServiceImpl @Autowired constructor(
     override fun create(markDto: MarkDto, examId: Long, studentId: Long): MarkDto {
         val exam = examService.getById(examId)
         val student = studentService.getById(studentId)
-        val mark = markDto.toModel(exam = exam, student= student)
+        val mark = markDto.toModel(exam = exam, student = student)
         checkUnique(mark)
 
         return MarkDto(markRepository.save(mark))
@@ -44,5 +43,9 @@ class MarkServiceImpl @Autowired constructor(
         if (markRepository.countByExamIdAndStudentId(examId, studentId) > 0) {
             throw MarkUniqueException(examId, studentId)
         }
+    }
+
+    override fun getAllDtoByStudentId(studentId: Long): List<MarkDto> {
+        return markRepository.findAllByStudentId(studentId).map { MarkDto(it) }
     }
 }

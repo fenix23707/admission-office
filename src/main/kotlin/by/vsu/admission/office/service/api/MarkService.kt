@@ -10,4 +10,6 @@ interface MarkService {
     fun create(markDto: MarkDto, examId: Long, studentId: Long): MarkDto
 
     fun delete(id: Long)
+
+    fun getAllDtoByStudentId(studentId: Long): List<MarkDto>
 }

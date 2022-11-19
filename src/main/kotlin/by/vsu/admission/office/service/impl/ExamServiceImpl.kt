@@ -3,6 +3,7 @@ package by.vsu.admission.office.service.impl
 import by.vsu.admission.office.dto.ExamDto
 import by.vsu.admission.office.dto.StudentDto
 import by.vsu.admission.office.dto.assign.StudentExamAssignDto
+import by.vsu.admission.office.exception.forbidden.UserAccessException
 import by.vsu.admission.office.exception.notfound.ExamNotFoundException
 import by.vsu.admission.office.model.Exam
 import by.vsu.admission.office.model.Subject
@@ -23,7 +24,7 @@ class ExamServiceImpl @Autowired constructor(
     private val userService: UserService
 ) : ExamService {
 
-    private fun getById(id: Long): Exam {
+    override fun getById(id: Long): Exam {
         return examRepository.findByIdOrNull(id) ?: throw ExamNotFoundException(id)
     }
 
@@ -60,6 +61,13 @@ class ExamServiceImpl @Autowired constructor(
 
     override fun getAllByUserIdDto(userId: Long): List<ExamDto> {
         return userService.getById(userId).exams.map { ExamDto(it) }
+    }
+
+    override fun checkHasAccessToExam(userId: Long, examId: Long) {
+        val exam = getById(examId)
+        if (!exam.users.map { it.id }.contains(userId)) {
+            throw UserAccessException("User with id = $userId don't have access to exam with id = ${exam.id}.")
+        }
     }
 
     private fun checkIfExistById(id: Long) {

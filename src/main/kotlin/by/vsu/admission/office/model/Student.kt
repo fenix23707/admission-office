@@ -1,5 +1,6 @@
 package by.vsu.admission.office.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.Hibernate
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -16,10 +17,11 @@ data class Student(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long? = null,
 
     @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     val user: User,
 ) {
     override fun equals(other: Any?): Boolean {

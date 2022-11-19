@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 @ControllerAdvice
 class ExceptionControllerAdvice {
 
-
-
     @ExceptionHandler(ServiceException::class)
     fun serviceExceptionHandler(ex: ServiceException): ResponseEntity<ApiErrorMessage> {
         val apiErrorMessage = ApiErrorMessage(
@@ -51,7 +49,8 @@ class ExceptionControllerAdvice {
         val apiErrorMessage = ApiErrorMessage(
             status = HttpStatus.INTERNAL_SERVER_ERROR.name,
             message = "Something went wrong",
-            debugMessage = exception.message
+            debugMessage = exception.message,
+            stackTrace = exception.stackTraceToString()
         )
         return ResponseEntity(apiErrorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
     }

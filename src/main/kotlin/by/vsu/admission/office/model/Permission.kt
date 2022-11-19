@@ -1,5 +1,6 @@
 package by.vsu.admission.office.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.Hibernate
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -26,6 +27,7 @@ data class Permission(
     val action: PermissionAction,
 
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
+    @JsonIgnore
     val roles: Set<Role> = emptySet()
 ) {
     override fun equals(other: Any?): Boolean {

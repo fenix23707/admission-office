@@ -45,7 +45,7 @@ class RegistrationController @Autowired constructor(
         authentication: Authentication
     ): PageableRegistrationDto {
         val userId = (authentication.principal as UserSecurity).id
-        val studentId = studentService.getByUserId(userId).id
+        val studentId = studentService.getByUserId(userId).id!!
         val page = registrationService.getAllByStudentId(studentId, PageRequest.of(page, size))
         return PageableRegistrationDto(page)
     }
